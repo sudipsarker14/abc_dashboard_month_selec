@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="abc_dashboard_template" owl="1">
+        <div class="abc_dashboard">
+            <div class="dashboard-header">
+                <h1>ABC Report</h1>
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label>Month From</label>
+                        <div class="month-picker-display" t-on-click="toggleMonthFromPicker">
+                            <span t-esc="getMonthFromDisplay()"/>
+                            <i class="fa fa-calendar"/>
+                        </div>
+                        <div class="month-picker-dropdown" t-if="state.showMonthFromPicker">
+                            <div class="year-list">
+                                <t t-foreach="state.yearOptions" t-as="yr" t-key="yr">
+                                    <div class="year-item"
+                                         t-att-class="yr === state.pickerFromYear ? 'active' : ''"
+                                         t-on-click="() => this.selectYear('from', yr)"
+                                         t-esc="yr"/>
+                                </t>
+                            </div>
+                            <div class="month-section">
+                                <div class="month-grid">
+                                    <t t-foreach="['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" t-as="mn" t-key="mn_index">
+                                        <button class="month-btn"
+                                                t-att-class="isMonthFromActive(state.pickerFromYear, mn_index) ? 'active' : ''"
+                                                t-on-click="() => this.selectMonthFrom(mn_index)"
+                                                t-esc="mn"/>
+                                    </t>
+                                </div>
+                                <div class="month-picker-footer">
+                                    <button class="picker-action-btn" t-on-click="clearMonthFrom">Close</button>
+                                    <button class="picker-action-btn" t-on-click="selectCurrentMonthFrom">This month</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Month To</label>
+                        <div class="month-picker-display" t-on-click="toggleMonthToPicker">
+                            <span t-esc="getMonthToDisplay()"/>
+                            <i class="fa fa-calendar"/>
+                        </div>
+                        <div class="month-picker-dropdown" t-if="state.showMonthToPicker">
+                            <div class="year-list">
+                                <t t-foreach="state.yearOptions" t-as="yr" t-key="yr">
+                                    <div class="year-item"
+                                         t-att-class="yr === state.pickerToYear ? 'active' : ''"
+                                         t-on-click="() => this.selectYear('to', yr)"
+                                         t-esc="yr"/>
+                                </t>
+                            </div>
+                            <div class="month-section">
+                                <div class="month-grid">
+                                    <t t-foreach="['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" t-as="mn" t-key="mn_index">
+                                        <button class="month-btn"
+                                                t-att-class="isMonthToActive(state.pickerToYear, mn_index) ? 'active' : ''"
+                                                t-on-click="() => this.selectMonthTo(mn_index)"
+                                                t-esc="mn"/>
+                                    </t>
+                                </div>
+                                <div class="month-picker-footer">
+                                    <button class="picker-action-btn" t-on-click="clearMonthTo">Close</button>
+                                    <button class="picker-action-btn" t-on-click="selectCurrentMonthTo">This month</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Company</label>
+                        <div class="company-btn-group">
+                            <t t-foreach="state.companyOptions" t-as="co" t-key="co.id">
+                                <button class="company-btn"
+                                        t-att-class="state.selectedCompany === co.id ? 'active' : ''"
+                                        t-on-click="() => this.selectCompany(co.id)"
+                                        t-esc="co.name"/>
+                            </t>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Type</label>
+                        <div class="company-btn-group">
+                            <button class="company-btn"
+                                    t-att-class="state.filters.type === 'value' ? 'active' : ''"
+                                    t-on-click="() => this.selectType('value')">Value</button>
+                            <button class="company-btn"
+                                    t-att-class="state.filters.type === 'qty' ? 'active' : ''"
+                                    t-on-click="() => this.selectType('qty')">Qty</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Display Mode</label>
+                        <select t-on-change="onDisplayModeChange">
+                            <option value="customer"       t-att-selected="state.filters.displayMode === 'customer'">Customer</option>
+                            <option value="customer_group" t-att-selected="state.filters.displayMode === 'customer_group'">Customer Group</option>
+                            <option value="buyer_name"     t-att-selected="state.filters.displayMode === 'buyer_name'">Buyer</option>
+                            <option value="buyer_group"    t-att-selected="state.filters.displayMode === 'buyer_group'">Buyer Group</option>
+                            <option value="sales_person"   t-att-selected="state.filters.displayMode === 'sales_person'">Sales Person</option>
+                            <option value="sales_team"     t-att-selected="state.filters.displayMode === 'sales_team'">Sales Team</option>
+                            <option value="item"           t-att-selected="state.filters.displayMode === 'item'">Item</option>
+                            <option value="country"        t-att-selected="state.filters.displayMode === 'country'">Country</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-actions">
+                        <!-- <button class="btn btn-apply"  t-on-click="applyFilters">Apply</button>
+                        <button class="btn btn-clear"  t-on-click="clearFilters">Clear</button> -->
+                        <button class="btn btn-excel"  t-on-click="exportToExcel">Excel</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+
+                <t t-if="state.loading">
+                    <div class="text-center my-5">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </t>
+
+                <t t-if="!state.loading">
+                    <div class="minimal-card">
+                        <div class="section-title">
+                            <div>
+                                <t t-esc="getDisplayModeLabel()"/> —
+                                <t t-esc="state.filters.type === 'qty' ? 'Quantity' : 'Value'"/> |
+                                <t t-esc="getMonthFromDisplay()"/> to <t t-esc="getMonthToDisplay()"/>
+                            </div>
+                            <div class="last-update-note">
+                                Last Update on: <t t-esc="getLastUpdate()"/>
+                            </div>
+                        </div>
+
+                        <t t-if="state.rows.length === 0 and state.groups.length === 0">
+                            <div class="no-data">
+                                <i class="fa fa-inbox fa-2x" style="margin-bottom:8px;display:block;"/>
+                                No data found for the selected filters.
+                            </div>
+                        </t>
+
+                        <t t-if="!state.isHierarchical and state.rows.length > 0">
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th t-esc="getDisplayModeLabel()"/>
+                                            <th>Total</th>
+                                            <th>Avg.</th>
+                                            <th>Unit Price</th>
+                                            <th>Share</th>
+                                            <t t-foreach="state.months" t-as="month" t-key="month_index">
+                                                <th t-esc="month"/>
+                                            </t>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="grand-total-row">
+                                            <td>TOTAL</td>
+                                            <td t-esc="fmt(getGrandTotal())"/>
+                                            <td t-esc="fmtDec(getGrandAvg())"/>
+                                            <td t-esc="fmtDec(getGrandUnitPrice())"/>
+                                            <td>100%</td>
+                                            <t t-foreach="state.months" t-as="month" t-key="month_index">
+                                                <td t-esc="fmt(getGrandMonthVal(month_index))"/>
+                                            </t>
+                                        </tr>
+                                        <t t-foreach="state.rows" t-as="row" t-key="row.name">
+                                            <tr>
+                                                <td t-esc="row.name"/>
+                                                <td t-esc="fmt(getRowTotal(row))"/>
+                                                <td t-esc="fmtDec(getAvg(row))"/>
+                                                <td t-esc="fmtDec(getUnitPrice(row))"/>
+                                                <td>
+                                                    <span t-att-class="shareClass(row)"
+                                                          t-esc="fmtDec(getShare(row)) + '%'"/>
+                                                </td>
+                                                <t t-foreach="state.months" t-as="month" t-key="month_index">
+                                                    <td t-esc="fmt(getMonthVal(row, month_index))"/>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </t>
+
+                        <t t-if="state.isHierarchical and state.groups.length > 0">
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <span t-esc="getDisplayModeLabel()"/>
+                                            </th>
+                                            <th>Total</th>
+                                            <th>Avg.</th>
+                                            <th>Unit Price</th>
+                                            <th>Share</th>
+                                            <t t-foreach="state.months" t-as="month" t-key="month_index">
+                                                <th t-esc="month"/>
+                                            </t>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="grand-total-row">
+                                            <td>TOTAL</td>
+                                            <td t-esc="fmt(getGrandTotal())"/>
+                                            <td t-esc="fmtDec(getGrandAvg())"/>
+                                            <td t-esc="fmtDec(getGrandUnitPrice())"/>
+                                            <td>100%</td>
+                                            <t t-foreach="state.months" t-as="month" t-key="month_index">
+                                                <td t-esc="fmt(getGrandMonthVal(month_index))"/>
+                                            </t>
+                                        </tr>
+
+                                        <t t-foreach="state.groups" t-as="grp" t-key="grp.group_name">
+                                            <tr class="group-header-row">
+                                                <td>
+                                                    <div class="group-label">
+                                                        <span t-esc="grp.group_name"/>
+                                                    </div>
+                                                </td>
+                                                <td t-esc="fmt(getRowTotal(grp))"/>
+                                                <td t-esc="fmtDec(getAvg(grp))"/>
+                                                <td t-esc="fmtDec(getUnitPrice(grp))"/>
+                                                <td>
+                                                    <span t-att-class="shareClass(grp)"
+                                                          t-esc="fmtDec(getShare(grp)) + '%'"/>
+                                                </td>
+                                                <t t-foreach="state.months" t-as="month" t-key="month_index">
+                                                    <td t-esc="fmt(getMonthVal(grp, month_index))"/>
+                                                </t>
+                                            </tr>
+
+                                            <t t-foreach="grp.children" t-as="child" t-key="child.name">
+                                                <tr class="child-row">
+                                                    <td class="child-name">
+                                                        <span t-esc="child.name"/>
+                                                    </td>
+                                                    <td t-esc="fmt(getRowTotal(child))"/>
+                                                    <td t-esc="fmtDec(getAvg(child))"/>
+                                                    <td t-esc="fmtDec(getUnitPrice(child))"/>
+                                                    <td>
+                                                        <span t-att-class="shareClass(child)"
+                                                              t-esc="fmtDec(getShare(child)) + '%'"/>
+                                                    </td>
+                                                    <t t-foreach="state.months" t-as="month" t-key="month_index">
+                                                        <td t-esc="fmt(getMonthVal(child, month_index))"/>
+                                                    </t>
+                                                </tr>
+                                            </t>
+
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </t>
+
+                    </div>
+                </t>
+
+            </div>
+        </div>
+    </t>
+</templates>
