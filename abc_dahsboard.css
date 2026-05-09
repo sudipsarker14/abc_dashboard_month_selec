@@ -1,0 +1,359 @@
+.abc_dashboard {
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+                    background: #f8f9fa;
+                    height: 97vh;
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+                }
+
+                .abc_dashboard .dashboard-header {
+                    background: white;
+                    /* padding: 4px 18px; */
+                    padding: 2px 18px 2px 18px; 
+                    /* border-bottom: 3px solid #875A7B; */
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 20px;
+                    flex-wrap: wrap;
+                }
+                .abc_dashboard .dashboard-header h1 {
+                    margin: 0;
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: #2c3e50;
+                    flex-shrink: 0;
+                }
+                .abc_dashboard .filters-row {
+                    display: flex;
+                    align-items: flex-end;
+                    gap: 20px;
+                    flex-wrap: wrap;
+                }
+                .abc_dashboard .filter-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                    position: relative;
+                }
+                .abc_dashboard .filter-group label {
+                    font-size: 11px;
+                    font-weight: 600;
+                    color: #875A7B;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    margin: 0;
+                }
+                .abc_dashboard .filter-actions {
+                    margin-left: auto;
+                    display: flex;
+                    gap: 8px;
+                    align-items: flex-end;
+                }
+
+                .abc_dashboard .dashboard-content {
+                    flex: 1;
+                    overflow-y: auto;
+                    overflow-x: auto;
+                    padding: 0 0 2px 0;
+                }
+                .abc_dashboard .dashboard-content::-webkit-scrollbar { width: 8px; height: 8px; }
+                .abc_dashboard .dashboard-content::-webkit-scrollbar-track { background: #f1f1f1; }
+                .abc_dashboard .dashboard-content::-webkit-scrollbar-thumb { background: #875A7B; border-radius: 5px; }
+                .abc_dashboard .dashboard-content::-webkit-scrollbar-thumb:hover { background: #6d4860; }
+
+                .abc_dashboard .minimal-card {
+                    background: white;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 0;
+                    margin-bottom: 20px;
+                    padding: 3px 10px 20px 10px;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                }
+
+                .abc_dashboard .section-title {
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: #2c3e50;
+                    margin-bottom: 4px;
+                    padding-bottom: 4px;
+                    /* border-bottom: 2px solid #875A7B; */
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-end;
+                }
+                .abc_dashboard .last-update-note {
+                    font-size: 11px;
+                    font-weight: 500;
+                    color: #6b7280;
+                    font-style: italic;
+                }
+
+                .abc_dashboard .month-picker-display {
+                    min-width: 130px;
+                    padding: 6px 10px;
+                    border-bottom: 2px solid #875A7B;
+                    background: white;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 13px;
+                    gap: 8px;
+                }
+                .abc_dashboard .month-picker-display:hover { background: #f9fafb; }
+                .abc_dashboard .month-picker-dropdown {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    margin-top: 4px;
+                    background: white;
+                    border: 1px solid #d1d5db;
+                    border-radius: 4px;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+                    z-index: 1000;
+                    min-width: 300px;
+                    display: flex;
+                }
+                .abc_dashboard .year-list {
+                    flex: 0 0 90px;
+                    border-right: 1px solid #e5e7eb;
+                    max-height: 260px;
+                    overflow-y: auto;
+                    background: #f9fafb;
+                }
+                .abc_dashboard .year-item {
+                    padding: 9px 12px;
+                    cursor: pointer;
+                    font-size: 13px;
+                    color: #4b5563;
+                    transition: all 0.15s;
+                }
+                .abc_dashboard .year-item:hover { background: #e5e7eb; }
+                .abc_dashboard .year-item.active { background: #875A7B; color: white; font-weight: 600; }
+                .abc_dashboard .month-section {
+                    flex: 1;
+                    padding: 10px;
+                    display: flex;
+                    flex-direction: column;
+                }
+                .abc_dashboard .month-grid {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 6px;
+                    margin-bottom: 8px;
+                }
+                .abc_dashboard .month-btn {
+                    padding: 7px 6px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 4px;
+                    background: white;
+                    cursor: pointer;
+                    font-size: 12px;
+                    transition: all 0.15s;
+                    text-align: center;
+                }
+                .abc_dashboard .month-btn:hover { background: #f3f4f6; }
+                .abc_dashboard .month-btn.active { background: #875A7B; color: white; border-color: #875A7B; }
+                .abc_dashboard .month-picker-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    padding-top: 6px;
+                    border-top: 1px solid #e5e7eb;
+                }
+                .abc_dashboard .picker-action-btn {
+                    padding: 5px 10px;
+                    border: none;
+                    background: transparent;
+                    color: #875A7B;
+                    cursor: pointer;
+                    font-size: 12px;
+                    border-radius: 4px;
+                }
+                .abc_dashboard .picker-action-btn:hover { background: #f3f4f6; }
+
+                .abc_dashboard .form-control,
+                .abc_dashboard select {
+                    border: none;
+                    border-bottom: 2px solid #875A7B;
+                    border-radius: 0;
+                    padding: 6px 10px;
+                    font-size: 13px;
+                    background: white;
+                    min-width: 130px;
+                    cursor: pointer;
+                }
+                .abc_dashboard .form-control:focus,
+                .abc_dashboard select:focus {
+                    outline: none;
+                    border-bottom-color: #6d4860;
+                    box-shadow: none;
+                }
+
+                .abc_dashboard .btn {
+                    padding: 7px 16px;
+                    font-size: 13px;
+                    border-radius: 4px;
+                    border: none;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+                .abc_dashboard .btn-apply { background: #875A7B; color: white; }
+                .abc_dashboard .btn-apply:hover { background: #6d4860; }
+                .abc_dashboard .btn-clear { background: #6b7280; color: white; }
+                .abc_dashboard .btn-clear:hover { background: #4b5563; }
+                .abc_dashboard .btn-excel { background: #10b981; color: white; }
+                .abc_dashboard .btn-excel:hover { background: #059669; }
+
+                .abc_dashboard .company-btn-group {
+                    display: flex;
+                    gap: 6px;
+                    flex-wrap: wrap;
+                }
+                .abc_dashboard .company-btn {
+                    padding: 6px 14px;
+                    border: none;
+                    border-bottom: 2px solid #875A7B;
+                    background: white;
+                    color: #4b5563;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    font-size: 13px;
+                    white-space: nowrap;
+                }
+                .abc_dashboard .company-btn:hover { background: #f9fafb; }
+                .abc_dashboard .company-btn.active { background: #875A7B; color: white; border-bottom-color: #875A7B; }
+
+                .abc_dashboard .table-wrapper {
+                    overflow-x: auto;
+                    overflow-y: auto;
+                    width: 100%;
+                    max-height: calc(97vh - 120px); 
+                }
+                .abc_dashboard .table-wrapper::-webkit-scrollbar { height: 8px; width: 8px; }
+                .abc_dashboard .table-wrapper::-webkit-scrollbar-track { background: #f1f1f1; }
+                .abc_dashboard .table-wrapper::-webkit-scrollbar-thumb { background: #875A7B; border-radius: 4px; }
+
+                .abc_dashboard table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 12px;
+                    min-width: 700px;
+                }
+
+                .abc_dashboard table th {
+                    background: #f3f4f6;
+                    color: #374151;
+                    font-weight: 600;
+                    padding: 7px 6px;
+                    text-align: center;
+                    border: 1px solid #e5e7eb;
+                    white-space: nowrap;
+                    position: sticky;
+                    top: 0;
+                    z-index: 3;
+                }
+                .abc_dashboard table thead tr th:first-child {
+                    text-align: left;
+                    min-width: 200px;
+                    position: sticky;
+                    left: 0;
+                    top: 0;
+                    background: #f3f4f6;
+                    z-index: 4; 
+                }
+
+                .abc_dashboard table td {
+                    padding: 5px 6px;
+                    border: 1px solid #e5e7eb;
+                    color: #1f2937;
+                    text-align: right;
+                    white-space: nowrap;
+                }
+                .abc_dashboard table tbody tr td:first-child {
+                    text-align: left;
+                    position: sticky;
+                    left: 0;
+                    background: white;
+                    z-index: 1;
+                    font-weight: 500;
+                }
+                .abc_dashboard table tbody tr:hover td { background: #faf5fd !important; }
+
+                .abc_dashboard table tbody tr.grand-total-row td {
+                    background: #f0ebf4 !important;
+                    font-weight: 700;
+                    color: #2c3e50;
+                    border-top: 2px solid #875A7B;
+                    position: sticky;
+                    top: 31px; 
+                    z-index: 2;
+                }
+                .abc_dashboard table tbody tr.grand-total-row td:first-child {
+                    background: #e8dff0 !important;
+                    position: sticky;
+                    left: 0;
+                    top: 31px;
+                    z-index: 3; 
+                }
+                .abc_dashboard table tbody tr.grand-total-row:hover td {
+                    background: #e8dff0 !important;
+                }
+                .abc_dashboard table tbody tr.grand-total-row:hover td:first-child {
+                    background: #dfd5ec !important;
+                }
+
+                .abc_dashboard table tbody tr.group-header-row td {
+                    background: #ede6f4 !important;
+                    font-weight: 700;
+                    color: #2c3e50;
+                    border-top: 1px solid #c9b8d8;
+                }
+                .abc_dashboard table tbody tr.group-header-row td:first-child {
+                    background: #e4d8ef !important;
+                }
+                .abc_dashboard table tbody tr.group-header-row:hover td {
+                    background: #ddd0ea !important;
+                }
+                .abc_dashboard table tbody tr.group-header-row:hover td:first-child {
+                    background: #d4c4e0 !important;
+                }
+
+                .abc_dashboard .group-label {
+                    display: block;
+                    width: 100%;
+                }
+
+                .abc_dashboard table tbody tr.child-row td {
+                    background: #fdfaff;
+                    color: #374151;
+                    font-weight: 400;
+                }
+                .abc_dashboard table tbody tr.child-row td:first-child {
+                    background: #f9f5fc;
+                }
+                .abc_dashboard table tbody tr.child-row:hover td {
+                    background: #f3ecf9 !important;
+                }
+                .abc_dashboard table tbody tr.child-row:hover td:first-child {
+                    background: #ece4f5 !important;
+                }
+                .abc_dashboard td.child-name {
+                    padding-left: 28px !important;
+                    font-style: italic;
+                    color: #4b5563;
+                }
+
+                .abc_dashboard .share-top { color: #e67e22; font-weight: 600; }
+                .abc_dashboard .share-normal { color: #374151; }
+
+                .abc_dashboard .spinner-border { color: #875A7B !important; }
+                .abc_dashboard .no-data {
+                    text-align: center;
+                    padding: 40px;
+                    color: #9ca3af;
+                    font-size: 14px;
+                }
